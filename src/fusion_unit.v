@@ -44,6 +44,7 @@ module fusion_unit (
     wire [9:0] prod15;
 
     wire [15:0] sum0, sum1, sum2, sum3;
+    wire [3:0] weight_signed, in_signed;
 
     shift_lookup sl(
         .in_width(in_width),
@@ -55,183 +56,194 @@ module fusion_unit (
         .big_shift({big_shift3, big_shift2, big_shift1, big_shift0})
     );
 
+    sign_lookup signlu(
+        .in_width(in_width),
+        .weight_width(weight_width),
+        .in_signed(in_signed),
+        .weight_signed(weight_signed)
+    );
+
     bitbrick bb0(
         .x(in[1:0]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[0]),
         .y(weight[1:0]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift0),
         .prod(prod0)
     );
 
     bitbrick bb1(
         .x(in[1:0]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[0]),
         .y(weight[3:2]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift1),
         .prod(prod1)
     );
 
     bitbrick bb2(
         .x(in[1:0]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[0]),
         .y(weight[5:4]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[2]),
         .shift(shift2),
         .prod(prod2)
     );
 
     bitbrick bb3(
         .x(in[1:0]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[0]),
         .y(weight[7:6]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[3]),
         .shift(shift3),
         .prod(prod3)
     );
 
     bitbrick bb4(
         .x(in[3:2]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[1]),
         .y(weight[1:0]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift4),
         .prod(prod4)
     );
         
     bitbrick bb5(
         .x(in[3:2]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[1]),
         .y(weight[3:2]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift5),
         .prod(prod5)
     );
 
     bitbrick bb6(
         .x(in[3:2]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[1]),
         .y(weight[5:4]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[2]),
         .shift(shift6),
         .prod(prod6)
     );
 
     bitbrick bb7(
         .x(in[3:2]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[1]),
         .y(weight[7:6]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[3]),
         .shift(shift7),
         .prod(prod7)
     );
 
     bitbrick bb8(
         .x(in[5:4]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[2]),
         .y(weight[1:0]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift8),
         .prod(prod8)
     );  
 
     bitbrick bb9(
         .x(in[5:4]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[2]),
         .y(weight[3:2]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift9),
         .prod(prod9)
     );  
 
     bitbrick bb10(
         .x(in[5:4]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[2]),
         .y(weight[5:4]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[2]),
         .shift(shift10),
         .prod(prod10)
     ); 
 
     bitbrick bb11(
         .x(in[5:4]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[2]),
         .y(weight[7:6]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[3]),
         .shift(shift11),
         .prod(prod11)
     );  
 
     bitbrick bb12(
         .x(in[7:6]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[3]),
         .y(weight[1:0]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift12),
         .prod(prod12)
     );  
 
     bitbrick bb13(
         .x(in[7:6]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[3]),
         .y(weight[3:2]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift13),
         .prod(prod13)
     ); 
 
     bitbrick bb14(
         .x(in[7:6]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[3]),
         .y(weight[5:4]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[2]),
         .shift(shift14),
         .prod(prod14)
     ); 
 
     bitbrick bb15(
         .x(in[7:6]),
-        .s_x(s_in),
+        .s_x(s_in & in_signed[3]),
         .y(weight[7:6]),
-        .s_y(s_weight),
+        .s_y(s_weight & weight_signed[3]),
         .shift(shift15),
         .prod(prod15)
     ); 
 
     fusion_subunit fs0 (
-        .prod0(prod0),
-        .prod1(prod1),
-        .prod2(prod4),
-        .prod3(prod5),
+        .p0(prod0),
+        .p1(prod1),
+        .p2(prod4),
+        .p3(prod5),
         .shift(big_shift0),
+        .sign(s_in | s_weight),
         .sum(sum0)
     );
 
     fusion_subunit fs1 (
-        .prod0(prod2),
-        .prod1(prod3),
-        .prod2(prod6),
-        .prod3(prod7),
+        .p0(prod2),
+        .p1(prod3),
+        .p2(prod6),
+        .p3(prod7),
         .shift(big_shift1),
+        .sign(s_in | s_weight),
         .sum(sum1)
     );
 
     fusion_subunit fs2 (
-        .prod0(prod8),
-        .prod1(prod9),
-        .prod2(prod12),
-        .prod3(prod13),
+        .p0(prod8),
+        .p1(prod9),
+        .p2(prod12),
+        .p3(prod13),
         .shift(big_shift2),
+        .sign(s_in | s_weight),
         .sum(sum2)
     );
 
     fusion_subunit fs3 (
-        .prod0(prod10),
-        .prod1(prod11),
-        .prod2(prod14),
-        .prod3(prod15),
+        .p0(prod10),
+        .p1(prod11),
+        .p2(prod14),
+        .p3(prod15),
         .shift(big_shift3),
+        .sign(s_in | s_weight),
         .sum(sum3)
     );
 

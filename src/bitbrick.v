@@ -85,5 +85,5 @@ module bitbrick (
         .sum(p[5])
     );    
 
-    assign prod = p << shift; 
+    assign prod = (($signed(p) << 4) >>> 4) << shift; 
 endmodule
