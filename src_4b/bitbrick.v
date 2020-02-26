@@ -82,7 +82,8 @@ module bitbrick (
     half_adder ha3(
         .in1(fa2_co),
         .in2(1'b1),
-        .sum(p[5])
+        .sum(p[5]),
+        .carry_out()
     );    
 
     assign prod = (($signed(p) << 4) >>> 4) << shift; 
