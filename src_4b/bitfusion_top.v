@@ -15,12 +15,12 @@ module bitfusion_top (
 
     fusion_unit fu0(
         .clk(CLK_125MHZ_FPGA),
-        .in(in_reg),
-        .weight(weight_reg),
-        .in_width(in_width_reg),
-        .weight_width(weight_width_reg),
-        .s_in(s_in_reg),
-        .s_weight(s_weight_reg),
+        .in(in),
+        .weight(weight),
+        .in_width(in_width),
+        .weight_width(weight_width),
+        .s_in(s_in),
+        .s_weight(s_weight),
         .psum_fwd(psum)
     );
 
