@@ -327,6 +327,8 @@ module bitfusion_top_testbench();
             end
         end
 
+        $display("All cases passed");
+
         $finish();
         //$vcdplusoff;
     end

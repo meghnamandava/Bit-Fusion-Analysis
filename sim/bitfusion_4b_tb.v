@@ -23,7 +23,7 @@ module bitfusion_top_testbench();
     integer a;
 
     bitfusion_top bt(
-        .clk(clk),
+        .CLK_125MHZ_FPGA(clk),
         .in(in),
         .weight(weight),
         .in_width(in_width),
