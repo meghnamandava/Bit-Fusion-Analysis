@@ -52,4 +52,5 @@ int main() {
             assert((ap_uint<8>)psum == i*j)                
         }
     }
+    return 0;
 }
