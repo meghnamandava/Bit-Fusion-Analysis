@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <ap_cint.h>
+#include "ap_cint.h"
 
 void bitfusion(ap_uint<4> in, ap_uint<4> weight, ap_uint<1> s_in, ap_uint<1> s_weight, ap_uint<3> in_width, ap_uint<3> weight_width, ap_uint<8> psum);
 
