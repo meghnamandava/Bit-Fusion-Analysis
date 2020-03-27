@@ -5,6 +5,8 @@ void bitfusion(ap_uint<4> in, ap_uint<4> weight, ap_uint<1> s_in, ap_uint<1> s_w
 
 int main() {
 
+    ap_uint<4> i;
+    ap_uint<4> j;
     ap_uint<3> in_width = 1;
     ap_uint<3> weight_width = 1;
     ap_uint<1> s_weight = 0;
