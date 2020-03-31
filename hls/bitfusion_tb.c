@@ -1,4 +1,5 @@
 #include "ap_cint.h"
+#include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
 
