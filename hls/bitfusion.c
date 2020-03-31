@@ -1,14 +1,62 @@
 #include <stdint.h>
 #include "ap_cint.h"
 
-void bitfusion(ap_uint<4> in, ap_uint<4> weight, ap_uint<1> s_in, ap_uint<1> s_weight, ap_uint<3> in_width, ap_uint<3> weight_width, ap_uint<8> psum) {
+void bitfusion(uint4 in, uint4 weight, uint1 s_in, uint1 s_weight, uint3 in_width, uint3 weight_width, uint8 psum) {
     if (s_in == 1 && s_weight == 1) {
-        psum = (ap_int<in_width>) in * (ap_int<weight_width>) weight;
+        if (in_width == 1 && weight_width == 4) {
+            psum = (int2) in * (int4) weight;
+        } else if (in_width == 2 && weight_width == 4) {
+            psum = (int2) in * (int4) weight;
+        } else if (in_width == 4 && weight_width == 1) {
+            psum = (int4) in * (int2) weight;
+        } else if (in_width == 4 && weight_width == 2) {
+            psum = (int4) in * (int2) weight;
+        } else if (in_width == 4 && weight_width == 4) {
+            psum = (int4) in * (int4) weight;
+        } else {
+            psum = (int2) in * (int2) weight;
+        }
     } else if (s_in == 0 && s_weight == 1) {
-        psum = (ap_uint<in_width>) in * (ap_int<weight_width>) weight;
+        if (in_width == 1 && weight_width == 4) {
+            psum = (uint2) in * (int4) weight;
+        } else if (in_width == 2 && weight_width == 4) {
+            psum = (uint2) in * (int4) weight;
+        } else if (in_width == 4 && weight_width == 1) {
+            psum = (uint4) in * (int2) weight;
+        } else if (in_width == 4 && weight_width == 2) {
+            psum = (uint4) in * (int2) weight;
+        } else if (in_width == 4 && weight_width == 4) {
+            psum = (uint4) in * (int4) weight;
+        } else {
+            psum = (uint2) in * (int2) weight;
+        }   
     } else if (s_in == 0 && s_weight == 0) {
-        psum = (ap_uint<in_width>) in * (ap_uint<weight_width>) weight;
+        if (in_width == 1 && weight_width == 4) {
+            psum = (uint2) in * (uint4) weight;
+        } else if (in_width == 2 && weight_width == 4) {
+            psum = (uint2) in * (uint4) weight;
+        } else if (in_width == 4 && weight_width == 1) {
+            psum = (uint4) in * (uint2) weight;
+        } else if (in_width == 4 && weight_width == 2) {
+            psum = (uint4) in * (uint2) weight;
+        } else if (in_width == 4 && weight_width == 4) {
+            psum = (uint4) in * (uint4) weight;
+        } else {
+            psum = (uint2) in * (uint2) weight;
+        } 
     } else if (s_in == 1 && s_weight == 0) {
-        psum = (ap_int<in_width>) in * (ap_uint<weight_width>) weight;
+        if (in_width == 1 && weight_width == 4) {
+            psum = (int2) in * (uint4) weight;
+        } else if (in_width == 2 && weight_width == 4) {
+            psum = (int2) in * (uint4) weight;
+        } else if (in_width == 4 && weight_width == 1) {
+            psum = (int4) in * (uint2) weight;
+        } else if (in_width == 4 && weight_width == 2) {
+            psum = (int4) in * (uint2) weight;
+        } else if (in_width == 4 && weight_width == 4) {
+            psum = (int4) in * (uint4) weight;
+        } else {
+            psum = (int2) in * (uint2) weight;
+        }
     }
 }
