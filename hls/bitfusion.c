@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include "ap_cint.h"
 
 void bitfusion(uint4 in, uint4 weight, uint1 s_in, uint1 s_weight, uint3 in_width, uint3 weight_width, uint8 psum) {
