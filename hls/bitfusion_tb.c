@@ -50,8 +50,8 @@ int main() {
     uint8 psum;
     for (i = -8; i <= 7; i++) {
         for (j = -8; j <= 7; j++) {
-            bitfusion((ap_int<4>) i, (ap_int<4>) j, s_in, s_weight, in_width, weight_width, psum);
-            assert((ap_uint<8>)psum == i*j);                
+            bitfusion((int4) i, (int4) j, s_in, s_weight, in_width, weight_width, psum);
+            assert((uint8)psum == i*j);                
         }
     }
     return 0;
