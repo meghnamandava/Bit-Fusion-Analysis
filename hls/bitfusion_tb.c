@@ -1,9 +1,10 @@
 #include "ap_cint.h"
+#include <stdio.h>
+#include <assert.h>
 
 void bitfusion(uint4 in, uint4 weight, uint1 s_in, uint1 s_weight, uint3 in_width, uint3 weight_width, uint8 psum);
 
 int main() {
-
     uint4 i;
     uint4 j;
     uint3 in_width = 1;
