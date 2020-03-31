@@ -59,4 +59,4 @@ void bitfusion(uint4 in, uint4 weight, uint1 s_in, uint1 s_weight, uint3 in_widt
             psum = (uint8) ((int2) in * (uint2) weight);
         }
     }
-}
+} 
