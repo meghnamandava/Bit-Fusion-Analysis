@@ -29,7 +29,7 @@ void bitfusion(uint4 in, uint4 weight, uint1 s_in, uint1 s_weight, uint3 in_widt
         } else {
             psum = (uint8) ((uint2) in * (int2) weight);
         }   
-    } else if (s_in == 0 && s_weight == 0) {
+    } else if (s_in == 0 && s_weight == 0) { 
         if (in_width == 1 && weight_width == 4) {
             psum = (uint8) ((uint2) in * (uint4) weight);
         } else if (in_width == 2 && weight_width == 4) {
