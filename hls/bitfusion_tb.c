@@ -16,7 +16,7 @@ int main() {
     for (i = 0; i <= 1; i++) {
         for (j = 0; j <= 1; j++) {
             bitfusion(i, j, s_in, s_weight, in_width, weight_width, psum);
-            assert(psum == i*j);                
+            if (psum != i*j) return 1;                
         }
     }
 
@@ -27,7 +27,7 @@ int main() {
     for (i = 0; i <= 3; i++) {
         for (j = 0; j <= 3; j++) {
             bitfusion(i, j, s_in, s_weight, in_width, weight_width, psum);
-            assert(psum == i*j);                
+            if (psum != i*j) return 1;                
         }
     }
 
@@ -38,7 +38,7 @@ int main() {
     for (i = 0; i <= 15; i++) {
         for (j = 0; j <= 15; j++) {
             bitfusion(i, j, s_in, s_weight, in_width, weight_width, psum);
-            assert(psum == i*j);                
+            if (psum != i*j) return 1;                
         }
     }
 
@@ -49,7 +49,7 @@ int main() {
     for (i = -8; i <= 7; i++) {
         for (j = -8; j <= 7; j++) {
             bitfusion((int4) i, (int4) j, s_in, s_weight, in_width, weight_width, psum);
-            assert((uint8)psum == i*j);                
+            if ((uint8)psum != i*j) return 1;                
         }
     }
     return 0;
