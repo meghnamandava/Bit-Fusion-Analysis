@@ -73,7 +73,7 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
 
         `ifndef IVERILOG
         weights = weights_mem;
-        inputs = 
+        inputs = inputs_mem[0];
         `endif
         $display("Weights: %h", weights);
         $display("Inputs: %h", inputs[0]);
