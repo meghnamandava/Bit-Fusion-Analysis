@@ -25,16 +25,6 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
     wire [31:0] psums [ARRAY_SIZE-1:0];
     `endif
 
-    `ifdef IVERILOG
-    weights = {weights_mem[0],weights_mem[1],weights_mem[2],weights_mem[3],weights_mem[4],weights_mem[5],weights_mem[6],weights_mem[7]};
-    inputs = inputs_mem[0];
-    `endif
-
-    `ifndef IVERILOG
-    assign weights = weights_mem;
-    assign inputs = inputs_mem[0];
-    `endif
-
     reg rst;
     reg [3:0] in_width;
     reg [3:0] weight_width;
@@ -75,6 +65,16 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
         rst = 0;
         $readmemh("../inputs.hex", inputs_mem, 0, 7);
         $readmemh("../weights.hex", weights_mem, 0, 7);
+
+        `ifdef IVERILOG
+        weights = {weights_mem[0],weights_mem[1],weights_mem[2],weights_mem[3],weights_mem[4],weights_mem[5],weights_mem[6],weights_mem[7]};
+        inputs = inputs_mem[0];
+        `endif
+
+        `ifndef IVERILOG
+        weights = weights_mem;
+        inputs = inputs_mem[0];
+        `endif
 
         $display("Weights: %h", weights);
         $display("Inputs: %h", inputs[0]);
