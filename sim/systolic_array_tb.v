@@ -10,8 +10,8 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
     initial clk = 0;
     always #(5) clk <= ~clk;
 
-    reg [(8*ARRAY_SIZE)-1:0] weights_mem [7:0];
-    reg [(8*ARRAY_SIZE)-1:0] inputs_mem [7:0];
+    reg [7:0] weights_mem [(8*ARRAY_SIZE)-1:0];
+    reg [7:0] inputs_mem [(8*ARRAY_SIZE)-1:0];
 
     `ifdef IVERILOG
     reg [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
@@ -63,8 +63,8 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
         rst = 1;
         repeat (30) @(posedge clk); #1;             // Hold reset for 30 cycles
         rst = 0;
-        $readmemh("../inputs.hex", inputs_mem, 0, 7);
-        $readmemh("../weights.hex", weights_mem, 0, 7);
+        $readmemh("../inputs.hex", inputs_mem);
+        $readmemh("../weights.hex", weights_mem);
 
         `ifdef IVERILOG
         weights = {weights_mem[0],weights_mem[1],weights_mem[2],weights_mem[3],weights_mem[4],weights_mem[5],weights_mem[6],weights_mem[7]};
