@@ -12,9 +12,11 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
 
     reg [(8*ARRAY_SIZE)-1:0] weights_mem [7:0];
     reg [(8*ARRAY_SIZE)-1:0] inputs_mem [7:0];
+
     reg [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
     reg [ARRAY_SIZE-1:0] [7:0] inputs;
     wire [ARRAY_SIZE-1:0] [31:0] psums;
+
     reg rst;
     reg [3:0] in_width;
     reg [3:0] weight_width;

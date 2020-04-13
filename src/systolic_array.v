@@ -23,7 +23,7 @@ module systolic_array #(parameter ARRAY_SIZE=8)
     );
 
     wire [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0] [31:0] psum_fwds;
-
+    
     genvar i;
     genvar j;
 
