@@ -20,7 +20,7 @@ module systolic_array_tb #(parameter ARRAY_SIZE=8) ();
     `endif
 
     `ifndef IVERILOG
-    reg [7:0] weights [(ARRAY_SIZE*ARRAY_SIZE)-1:0];
+    reg [(ARRAY_SIZE*ARRAY_SIZE)-1:0] weights [7:0];
     reg [(8*ARRAY_SIZE)-1:0] inputs;
     wire [31:0] psums [ARRAY_SIZE-1:0];
     `endif
