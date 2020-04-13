@@ -1,11 +1,12 @@
 module fusion_unit (
     input [7:0] in,
     input [7:0] weight,
+    input [31:0] psum_in,
     input [3:0] in_width,
     input [3:0] weight_width,
     input s_in,
     input s_weight,
-    output [15:0] psum_fwd
+    output [31:0] psum_fwd
     );
 
     wire [2:0] shift0;
@@ -247,7 +248,7 @@ module fusion_unit (
         .sum(sum3)
     );
 
-    assign psum_fwd = sum0 + sum1 + sum2 + sum3;
+    assign psum_fwd = sum0 + sum1 + sum2 + sum3 + psum_in;
 
 endmodule
 

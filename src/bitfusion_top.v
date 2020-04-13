@@ -1,5 +1,3 @@
-`timescale 1ns/1ns
-
 module bitfusion_top (
         input clk,
         input [7:0] in,
@@ -19,7 +17,7 @@ module bitfusion_top (
     reg [3:0] weight_width_reg;
     reg s_in_reg;
     reg s_weight_reg;
-    wire [15:0] psum_fwd;
+    wire [31:0] psum_fwd;
 
     fusion_unit fu0(
         .in(in_reg),
