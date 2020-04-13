@@ -14,34 +14,15 @@ module systolic_array #(parameter ARRAY_SIZE=8)
 
         /* Inputs */ 
 
-        `ifdef IVERILOG
         input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights,
         input [ARRAY_SIZE-1:0] [7:0] inputs,
-        `endif
-
-        `ifndef IVERILOG
-        input [7:0] weights [(ARRAY_SIZE*ARRAY_SIZE)-1:0],
-        input [7:0] inputs [ARRAY_SIZE-1:0],
-        `endif
 
         /* Outputs */
 
-        `ifdef IVERILOG
         output reg [ARRAY_SIZE-1:0] [31:0] psums 
-        `endif
-
-        `ifndef IVERILOG
-        output reg [31:0] psums [ARRAY_SIZE-1:0] 
-        `endif
     );
 
-    `ifdef IVERILOG
     wire [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0] [31:0] psum_fwds;
-    `endif
-
-    `ifndef IVERILOG
-    wire [31:0] psum_fwds [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0];
-    `endif
 
     genvar i;
     genvar j;
