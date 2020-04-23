@@ -179,17 +179,17 @@ module fusion_unit_testbench();
         weight_width = 8;
         s_weight = 1;
         s_in = 1;
-        for (i = -128; i <= -120; i = i + 1) begin
-            for (j = -128; j <= -120; j = j + 1) begin
+        for (i = -128; i <= 127; i = i + 1) begin
+            for (j = -128; j <= 127; j = j + 1) begin
                 in = i[7:0];
                 weight = j[7:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[31:0] != a[31:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
-        /*in_width = 8;
+        in_width = 8;
         weight_width = 8;
         s_weight = 1;
         s_in = 0;
@@ -199,7 +199,7 @@ module fusion_unit_testbench();
                 weight = j[7:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[31:0] != a[31:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -213,7 +213,7 @@ module fusion_unit_testbench();
                 weight = j[3:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[25:0] != a[25:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -227,7 +227,7 @@ module fusion_unit_testbench();
                 weight = j[3:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[25:0] != a[25:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -241,7 +241,7 @@ module fusion_unit_testbench();
                 weight = j[7:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[31:0] != a[31:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -255,7 +255,7 @@ module fusion_unit_testbench();
                 weight = j[3:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[25:0] != a[25:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -269,7 +269,7 @@ module fusion_unit_testbench();
                 weight = j[1:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[12:0] != a[12:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -283,7 +283,7 @@ module fusion_unit_testbench();
                 weight = j[7:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[31:0] != a[31:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -297,7 +297,7 @@ module fusion_unit_testbench();
                 weight = j[7:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[31:0] != a[31:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -311,7 +311,7 @@ module fusion_unit_testbench();
                 weight = j[1:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[12:0] != a[12:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -325,7 +325,7 @@ module fusion_unit_testbench();
                 weight = j[1:0];
                 a = i*j;
                 #10;
-                if (psum_fwd != a[15:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
+                if (psum_fwd[12:0] != a[12:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
 
@@ -366,7 +366,7 @@ module fusion_unit_testbench();
         if (psum_fwd[25:13] != 154) $display("Correct: 154, Output: %d", psum_fwd[25:13]);
         if (psum_fwd[38:26] != 308) $display("Correct: 308, Output: %d", psum_fwd[38:26]);
         if (psum_fwd[51:39] != 462) $display("Correct: 462, Output: %d", psum_fwd[51:39]);
-        */
+        
 
         $finish();
         //$vcdplusoff;

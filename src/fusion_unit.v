@@ -1,13 +1,14 @@
-module fusion_unit (
+module fusion_unit #(parameter COL_WIDTH=13) (
+
     input clk,
     input [7:0] in,
     input [7:0] weight,
-    input [51:0] psum_in,
+    input [(COL_WIDTH*4)-1:0] psum_in,
     input [3:0] in_width,
     input [3:0] weight_width,
     input s_in,
     input s_weight,
-    output reg [51:0] psum_fwd //max widths for 2b parallelism
+    output reg [(COL_WIDTH*4)-1:0] psum_fwd //max widths for 2b parallelism
     );
 
 
@@ -46,7 +47,7 @@ module fusion_unit (
     wire [9:0] prod14;
     wire [9:0] prod15;
 
-    wire [25:0] sum0, sum1, sum2, sum3;
+    wire [(COL_WIDTH*2)-1:0] sum0, sum1, sum2, sum3;
     wire [3:0] weight_signed, in_signed;
 
     shift_lookup sl(
@@ -210,7 +211,7 @@ module fusion_unit (
         .prod(prod15)
     ); 
 
-    fusion_subunit fs0 (
+    fusion_subunit #(.COL_WIDTH(13)) fs0 (
         .p0(prod0),
         .p1(prod1),
         .p2(prod4),
@@ -221,7 +222,7 @@ module fusion_unit (
         .sum(sum0)
     );
 
-    fusion_subunit fs1 (
+    fusion_subunit #(.COL_WIDTH(13))  fs1 (
         .p0(prod2),
         .p1(prod3),
         .p2(prod6),
@@ -232,7 +233,7 @@ module fusion_unit (
         .sum(sum1)
     );
 
-    fusion_subunit fs2 (
+    fusion_subunit #(.COL_WIDTH(13))  fs2 (
         .p0(prod8),
         .p1(prod9),
         .p2(prod12),
@@ -243,7 +244,7 @@ module fusion_unit (
         .sum(sum2)
     );
 
-    fusion_subunit fs3 (
+    fusion_subunit #(.COL_WIDTH(13))  fs3 (
         .p0(prod10),
         .p1(prod11),
         .p2(prod14),
@@ -254,20 +255,23 @@ module fusion_unit (
         .sum(sum3)
     );
 
+    wire [(COL_WIDTH*4)-1:0] stotal = $signed(sum0) + $signed(sum1) + $signed(sum2) + $signed(sum3) + $signed(psum_in) ;
+
     always @(posedge clk) begin
         casez (weight_width)
                 4'b1000: begin //8b
-                            psum_fwd <= sum0 + sum1 + sum2 + sum3 + psum_in;
+                            psum_fwd[(COL_WIDTH*2)-1:0] <= (s_in | s_weight) ? stotal[(COL_WIDTH*2)-1:0] : sum0 + sum1 + sum2 + sum3 + psum_in;
+                            psum_fwd[(COL_WIDTH*4)-1:(COL_WIDTH*2)] <= (s_in | s_weight) ? stotal[(COL_WIDTH*4)-1:(COL_WIDTH*2)] : {(COL_WIDTH*2){1'b0}};
                         end
                 4'b0100: begin //4b
-                            psum_fwd[25:0] <= sum0 + sum2 + psum_in[25:0];
-                            psum_fwd[51:26] <= sum1 + sum3 + psum_in[51:26];
+                            psum_fwd[(COL_WIDTH*2)-1:0] <= sum0 + sum2 + psum_in[(COL_WIDTH*2)-1:0];
+                            psum_fwd[(COL_WIDTH*4)-1:(COL_WIDTH*2)] <= sum1 + sum3 + psum_in[(COL_WIDTH*4)-1:(COL_WIDTH*2)];
                         end
                 4'b00zz: begin //2b, 1b
-                            psum_fwd[12:0] <= sum0[12:0] + sum2[12:0] + psum_in[12:0];
-                            psum_fwd[25:13] <= sum0[25:13] + sum2[25:13] + psum_in[25:13];
-                            psum_fwd[38:26] <= sum1[12:0] + sum3[12:0] + psum_in[38:26];
-                            psum_fwd[51:39] <= sum1[25:13] + sum3[25:13] + psum_in[51:39];
+                            psum_fwd[(COL_WIDTH)-1:0] <= sum0[(COL_WIDTH)-1:0] + sum2[(COL_WIDTH)-1:0] + psum_in[(COL_WIDTH)-1:0];
+                            psum_fwd[(COL_WIDTH*2)-1:COL_WIDTH] <= sum0[(COL_WIDTH*2)-1:COL_WIDTH] + sum2[(COL_WIDTH*2)-1:COL_WIDTH] + psum_in[(COL_WIDTH*2)-1:COL_WIDTH];
+                            psum_fwd[(COL_WIDTH*3)-1:COL_WIDTH*2] <= sum1[(COL_WIDTH)-1:0] + sum3[(COL_WIDTH)-1:0] + psum_in[(COL_WIDTH*3)-1:COL_WIDTH*2];
+                            psum_fwd[(COL_WIDTH*4)-1:COL_WIDTH*3] <= sum1[(COL_WIDTH*2)-1:COL_WIDTH] + sum3[(COL_WIDTH*2)-1:COL_WIDTH] + psum_in[(COL_WIDTH*4)-1:COL_WIDTH*3];
                         end
         endcase        
         //psum_fwd <= sum0 + sum1 + sum2 + sum3 + psum_in;
