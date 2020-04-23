@@ -14,34 +14,34 @@ module systolic_array #(parameter ARRAY_SIZE=8)
 
         /* Inputs */ 
 
-        `ifdef IVERILOG
+        //`ifdef IVERILOG
         input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights,
         input [ARRAY_SIZE-1:0] [7:0] inputs,
-        `endif
+        //`endif
 
-        `ifndef IVERILOG
-        input [7:0] weights [(ARRAY_SIZE*ARRAY_SIZE)-1:0],
-        input [7:0] inputs [ARRAY_SIZE-1:0],
-        `endif
+        // `ifndef IVERILOG
+        // input [7:0] weights [(ARRAY_SIZE*ARRAY_SIZE)-1:0],
+        // input [7:0] inputs [ARRAY_SIZE-1:0],
+        // `endif
 
         /* Outputs */
 
-        `ifdef IVERILOG
-        output reg [ARRAY_SIZE-1:0] [31:0] psums 
-        `endif
+        //`ifdef IVERILOG
+        output [ARRAY_SIZE-1:0] [51:0] psums 
+        //`endif
 
-        `ifndef IVERILOG
-        output reg [31:0] psums [ARRAY_SIZE-1:0] 
-        `endif
+        // `ifndef IVERILOG
+        // output reg [31:0] psums [ARRAY_SIZE-1:0] 
+        // `endif
     );
 
-    `ifdef IVERILOG
-    wire [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0] [31:0] psum_fwds;
-    `endif
+    //`ifdef IVERILOG
+    wire [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0] [51:0] psum_fwds;
+    //`endif
 
-    `ifndef IVERILOG
-    wire [31:0] psum_fwds [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0];
-    `endif
+    // `ifndef IVERILOG
+    // wire [31:0] psum_fwds [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0];
+    // `endif
     
     genvar i;
     genvar j;
@@ -60,31 +60,30 @@ module systolic_array #(parameter ARRAY_SIZE=8)
     // Set psums output to the last row 
     generate 
         for (i=0; i<ARRAY_SIZE; i=i+1) begin: last_psum_row
-            always @(posedge clk) begin
-                psums[i] <= psum_fwds[(ARRAY_SIZE*ARRAY_SIZE)+i];
-            end
+            assign psums[i] = psum_fwds[(ARRAY_SIZE*ARRAY_SIZE)+i];
         end
     endgenerate
 
     // Psum_in for top row of fusion units should zero
     generate 
         for (i=0; i<ARRAY_SIZE; i=i+1) begin: first_psum_row
-            assign psum_fwds[i] = 32'b0;
+            assign psum_fwds[i] = 52'b0;
         end
     endgenerate
 
     generate 
-        for (i=1; i<=ARRAY_SIZE; i=i+1) begin: rows
-            for (j=1; j<ARRAY_SIZE; j=j+1) begin: columns
+        for (i=0; i<ARRAY_SIZE; i=i+1) begin: rows
+            for (j=0; j<ARRAY_SIZE; j=j+1) begin: columns
                 fusion_unit fu (
-                    .in(inputs[i-1]),
-                    .weight(weights[(i*j)-1]),
-                    .psum_in(psum_fwds[(i*j)-1]),
+                    .clk(clk),
+                    .in(inputs[i]),
+                    .weight(weights[(i*ARRAY_SIZE)+j]),
+                    .psum_in(psum_fwds[(i*ARRAY_SIZE)+j]),
                     .in_width(in_width),
                     .weight_width(weight_width),
                     .s_in(s_in),
                     .s_weight(s_weight),
-                    .psum_fwd(psum_fwds[((i+1)*j)-1])
+                    .psum_fwd(psum_fwds[((i+1)*ARRAY_SIZE)+j])
                 );
             end
         end 

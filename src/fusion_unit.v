@@ -1,13 +1,15 @@
 module fusion_unit (
+    input clk,
     input [7:0] in,
     input [7:0] weight,
-    input [31:0] psum_in,
+    input [51:0] psum_in,
     input [3:0] in_width,
     input [3:0] weight_width,
     input s_in,
     input s_weight,
-    output [31:0] psum_fwd
+    output reg [51:0] psum_fwd //max widths for 2b parallelism
     );
+
 
     wire [2:0] shift0;
     wire [2:0] shift1;
@@ -44,7 +46,7 @@ module fusion_unit (
     wire [9:0] prod14;
     wire [9:0] prod15;
 
-    wire [15:0] sum0, sum1, sum2, sum3;
+    wire [25:0] sum0, sum1, sum2, sum3;
     wire [3:0] weight_signed, in_signed;
 
     shift_lookup sl(
@@ -214,6 +216,7 @@ module fusion_unit (
         .p2(prod4),
         .p3(prod5),
         .shift(big_shift0),
+        .split_column(weight_width[1] || weight_width[0]),        
         .sign(s_in | s_weight),
         .sum(sum0)
     );
@@ -224,6 +227,7 @@ module fusion_unit (
         .p2(prod6),
         .p3(prod7),
         .shift(big_shift1),
+        .split_column(weight_width[1] || weight_width[0]),        
         .sign(s_in | s_weight),
         .sum(sum1)
     );
@@ -234,6 +238,7 @@ module fusion_unit (
         .p2(prod12),
         .p3(prod13),
         .shift(big_shift2),
+        .split_column(weight_width[1] || weight_width[0]),
         .sign(s_in | s_weight),
         .sum(sum2)
     );
@@ -244,11 +249,30 @@ module fusion_unit (
         .p2(prod14),
         .p3(prod15),
         .shift(big_shift3),
+        .split_column(weight_width[1] || weight_width[0]),
         .sign(s_in | s_weight),
         .sum(sum3)
     );
 
-    assign psum_fwd = sum0 + sum1 + sum2 + sum3 + psum_in;
+    always @(posedge clk) begin
+        casez (weight_width)
+                4'b1000: begin //8b
+                            psum_fwd <= sum0 + sum1 + sum2 + sum3 + psum_in;
+                        end
+                4'b0100: begin //4b
+                            psum_fwd[25:0] <= sum0 + sum2 + psum_in[25:0];
+                            psum_fwd[51:26] <= sum1 + sum3 + psum_in[51:26];
+                        end
+                4'b00zz: begin //2b, 1b
+                            psum_fwd[12:0] <= sum0[12:0] + sum2[12:0] + psum_in[12:0];
+                            psum_fwd[25:13] <= sum0[25:13] + sum2[25:13] + psum_in[25:13];
+                            psum_fwd[38:26] <= sum1[12:0] + sum3[12:0] + psum_in[38:26];
+                            psum_fwd[51:39] <= sum1[25:13] + sum3[25:13] + psum_in[51:39];
+                        end
+        endcase        
+        //psum_fwd <= sum0 + sum1 + sum2 + sum3 + psum_in;
+    end
+    //assign psum_fwd = sum0 + sum1 + sum2 + sum3 + psum_in;
 
 endmodule
 

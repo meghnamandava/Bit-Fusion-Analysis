@@ -17,7 +17,7 @@ module bitfusion_top (
     reg [3:0] weight_width_reg;
     reg s_in_reg;
     reg s_weight_reg;
-    wire [31:0] psum_fwd;
+    wire [51:0] psum_fwd;
 
     fusion_unit fu0(
         .in(in_reg),
