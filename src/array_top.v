@@ -23,7 +23,7 @@ module array_top #(parameter COL_WIDTH=13) (
     reg s_weight_reg;
     wire [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psum_fwd;
 
-    fusion_unit fu0(
+    systolic_array sa0(
         .clk(clk),
         .inputs(in_reg),
         .weights(weight_reg),
