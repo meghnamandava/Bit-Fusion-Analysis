@@ -30,10 +30,10 @@ module fusion_unit (
     assign col1 = (s_in | s_weight) ? scol1 : prod0 + prod2;
     assign col2 = (s_in | s_weight) ? scol2 : prod1 + prod3;
     assign total = (s_in | s_weight) ? stotal : col1 + col2;
-    assign sum = (weight_width[1] || weight_width[0]) ? {col2, col1} : total;
+    //assign sum = (weight_width[1] || weight_width[0]) ? {col2, col1} : total;
 
     always @(posedge clk) begin
-        psum_fwd <= sum;
+        psum_fwd <= (weight_width[1] || weight_width[0]) ? {col2, col1} : total;
     end
 
     assign weight_signed = (weight_width == 3'b100) ? 2'b10 : 2'b11;
