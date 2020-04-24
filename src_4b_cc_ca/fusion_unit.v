@@ -25,8 +25,8 @@ module fusion_unit (
     wire [8:0] col1, col2;
     wire [17:0] total;
     wire [17:0] stotal = $signed(col1)+$signed(col2);
-    wire [8:0] scol1 = $signed(p0)+$signed(p2);
-    wire [8:0] scol2 = $signed(p1)+$signed(p3);
+    wire [8:0] scol1 = $signed(prod0)+$signed(prod2);
+    wire [8:0] scol2 = $signed(prod1)+$signed(prod3);
     assign col1 = sign ? scol1 : p0 + p2;
     assign col2 = sign ? scol2 : p1 + p3;
     assign total = sign ? stotal : col1 + col2;
