@@ -1,15 +1,15 @@
 module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
     input clk,
 
-    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
-    input [ARRAY_SIZE-1:0] [7:0] inputs;
+    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights,
+    input [ARRAY_SIZE-1:0] [7:0] inputs,
 
     input [3:0] in_width,
     input [3:0] weight_width,
     input s_in,
     input s_weight,
 
-    output reg [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psums; 
+    output reg [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psums
     );
 
     //need to mux inputs??
