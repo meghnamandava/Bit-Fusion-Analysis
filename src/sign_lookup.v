@@ -19,7 +19,7 @@ module sign_lookup (
             4'b0010: weight_signed = 4'b1111;
             4'b0100: weight_signed = 4'b1010;
             4'b1000: weight_signed = 4'b1000;
-            defualt: weight_signed = 4'b1000;
+            default: weight_signed = 4'b1000;
         endcase
     end
 
