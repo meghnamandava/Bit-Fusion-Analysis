@@ -1,4 +1,4 @@
-module array_top #(parameter COL_WIDTH=13) (
+module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
     input clk,
 
     input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
