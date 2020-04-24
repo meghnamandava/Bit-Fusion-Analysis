@@ -26,48 +26,48 @@ module fusion_unit (
         psum_fwd <= prod0 + prod1 + prod2 + prod3;;
     end
 
-    assign weight_signed = (weight_width_reg == 3'b100) ? 2'b10 : 2'b11;
-    assign in_signed = (in_width_reg == 3'b100) ? 2'b10 : 2'b11;
+    assign weight_signed = (weight_width == 3'b100) ? 2'b10 : 2'b11;
+    assign in_signed = (in_width == 3'b100) ? 2'b10 : 2'b11;
 
     shift_lookup sl(
-        .in_width(in_width_reg),
-        .weight_width(weight_width_reg),
+        .in_width(in_width),
+        .weight_width(weight_width),
         .row0({shift1, shift0}),
         .row1({shift3, shift2})
     );
 
     bitbrick bb0(
-        .x(in_reg[1:0]),
-        .s_x(s_in_reg & in_signed[0]),
-        .y(weight_reg[1:0]),
-        .s_y(s_weight_reg & weight_signed[0]),
+        .x(in[1:0]),
+        .s_x(s_in & in_signed[0]),
+        .y(weight[1:0]),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift0),
         .prod(prod0)
     );
 
     bitbrick bb1(
-        .x(in_reg[1:0]),
-        .s_x(s_in_reg & in_signed[0]),
-        .y(weight_reg[3:2]),
-        .s_y(s_weight_reg & weight_signed[1]),
+        .x(in[1:0]),
+        .s_x(s_in & in_signed[0]),
+        .y(weight[3:2]),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift1),
         .prod(prod1)
     );
 
     bitbrick bb2(
-        .x(in_reg[3:2]),
-        .s_x(s_i_reg & in_signed[1]),
-        .y(weight_reg[1:0]),
-        .s_y(s_weight_reg & weight_signed[0]),
+        .x(in[3:2]),
+        .s_x(s_in & in_signed[1]),
+        .y(weight[1:0]),
+        .s_y(s_weight & weight_signed[0]),
         .shift(shift2),
         .prod(prod2)
     );
         
     bitbrick bb3(
-        .x(in_reg[3:2]),
-        .s_x(s_in_reg & in_signed[1]),
-        .y(weight_reg[3:2]),
-        .s_y(s_weight_reg & weight_signed[1]),
+        .x(in[3:2]),
+        .s_x(s_in & in_signed[1]),
+        .y(weight[3:2]),
+        .s_y(s_weight & weight_signed[1]),
         .shift(shift3),
         .prod(prod3)
     );
