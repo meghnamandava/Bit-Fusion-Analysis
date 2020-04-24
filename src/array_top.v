@@ -9,7 +9,7 @@ module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
     input s_in,
     input s_weight,
 
-    output reg [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psums
+    output reg [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psum
     );
 
     //need to mux inputs??
@@ -21,7 +21,7 @@ module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
     reg [3:0] weight_width_reg;
     reg s_in_reg;
     reg s_weight_reg;
-    wire [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psum_fwd;
+    wire [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psum_out;
 
     systolic_array sa0(
         .clk(clk),
@@ -31,7 +31,7 @@ module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
         .weight_width(weight_width_reg),
         .s_in(s_in_reg),
         .s_weight(s_weight_reg),
-        .psum_fwd(psum_fwd)
+        .psums(psum_out)
     );
 
     always @(posedge clk) begin
@@ -41,7 +41,7 @@ module array_top #(parameter COL_WIDTH=13, parameter ARRAY_SIZE=8) (
         weight_width_reg <= weight_width;
         s_in_reg <= s_in;
         s_weight_reg <= s_weight;
-        psum <= psum_fwd;
+        psum <= psum_out;
     end
 
 endmodule
