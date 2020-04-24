@@ -27,10 +27,10 @@ module fusion_unit (
     wire [17:0] stotal = $signed(col1)+$signed(col2);
     wire [8:0] scol1 = $signed(prod0)+$signed(prod2);
     wire [8:0] scol2 = $signed(prod1)+$signed(prod3);
-    assign col1 = sign ? scol1 : prod0 + prod2;
-    assign col2 = sign ? scol2 : prod1 + prod3;
-    assign total = sign ? stotal : col1 + col2;
-    assign sum = split_column ? {col2, col1} : total;
+    assign col1 = (s_in | s_weight) ? scol1 : prod0 + prod2;
+    assign col2 = (s_in | s_weight) ? scol2 : prod1 + prod3;
+    assign total = (s_in | s_weight) ? stotal : col1 + col2;
+    assign sum = (weight_width[1] || weight_width[0]) ? {col2, col1} : total;
 
     always @(posedge clk) begin
         psum_fwd <= sum;
