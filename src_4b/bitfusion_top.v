@@ -21,12 +21,12 @@ module bitfusion_top (
 
     fusion_unit fu0(
         .clk(clk),
-        .in(in),
-        .weight(weight),
-        .in_width(in_width),
-        .weight_width(weight_width),
-        .s_in(s_in),
-        .s_weight(s_weight),
+        .in(in_reg),
+        .weight(weight_reg),
+        .in_width(in_width_reg),
+        .weight_width(weight_width_reg),
+        .s_in(s_in_reg),
+        .s_weight(s_weight_reg),
         .psum_fwd(psum)
     );
 
