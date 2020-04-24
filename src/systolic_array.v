@@ -18,23 +18,23 @@ module systolic_array #(parameter ARRAY_SIZE=8, parameter LOG_ARRAY_SIZE=3)
 
     localparam COL_WIDTH = 10+LOG_ARRAY_SIZE;
 
-    input clk,
+    input clk;
 
     /* Control */ 
 
-    input [3:0] in_width,
-    input [3:0] weight_width,
-    input s_in,
-    input s_weight,
+    input [3:0] in_width;
+    input [3:0] weight_width;
+    input s_in;
+    input s_weight;
 
     /* Inputs */ 
 
-    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights,
-    input [ARRAY_SIZE-1:0] [7:0] inputs,
+    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
+    input [ARRAY_SIZE-1:0] [7:0] inputs;
 
     /* Outputs */
 
-    output [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psums 
+    output [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] psums; 
 
     wire [(ARRAY_SIZE*(ARRAY_SIZE+1))-1:0] [(COL_WIDTH*4)-1:0] psum_fwds;
 
