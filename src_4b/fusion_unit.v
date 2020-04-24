@@ -9,13 +9,6 @@ module fusion_unit (
     output reg [7:0] psum_fwd
     );
 
-    reg [3:0] in_reg;
-    reg [3:0] weight_reg;
-    reg [2:0] in_width_reg;
-    reg [2:0] weight_width_reg;
-    reg s_in_reg;
-    reg s_weight_reg;
-
     wire [2:0] shift0;
     wire [2:0] shift1;
     wire [2:0] shift2;
@@ -30,12 +23,6 @@ module fusion_unit (
     wire [1:0] weight_signed, in_signed;
 
     always @(posedge clk) begin
-        in_reg <= in;
-        weight_reg <= weight;
-        in_width_reg <= in_width;
-        weight_width_reg <= weight_width;
-        s_in_reg <= s_in;
-        s_weight_reg <= s_weight;
         psum_fwd <= prod0 + prod1 + prod2 + prod3;;
     end
 

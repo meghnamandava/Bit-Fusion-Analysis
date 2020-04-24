@@ -24,5 +24,14 @@ module bitfusion_top (
         .psum_fwd(psum)
     );
 
+    always @(posedge clk) begin
+        in_reg <= in;
+        weight_reg <= weight;
+        in_width_reg <= in_width;
+        weight_width_reg <= weight_width;
+        s_in_reg <= s_in;
+        s_weight_reg <= s_weight;
+        //psum <= psum_fwd;
+    end
 
 endmodule
