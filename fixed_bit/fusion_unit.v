@@ -26,8 +26,8 @@ module fusion_unit #(parameter COL_WIDTH=11) (
     genvar i;
 
     generate 
-        for (i=0; i<4; i=i+1) begin: rows
-            fixed2 #(.COL_WIDTH(11)) fixed2(
+        for (i=0; i<4; i=i+1) begin: 2bit
+            fixed2 #(.COL_WIDTH(COL_WIDTH)) fixed2(
                 .clk(clk),
                 .in(in[1:0]+in[3:2]+in[5:4]+in[7:6]),
                 .weight(weight[(i*2)+1:i*2]),
@@ -36,11 +36,12 @@ module fusion_unit #(parameter COL_WIDTH=11) (
                 .s_weight(s_weight),
                 .psum_fwd(sum2[(COL_WIDTH*(i+1))-1:COL_WIDTH*i])
             );
-    end     
+        end     
+    endgenerate     
 
     generate 
-        for (i=0; i<2; i=i+1) begin: rows
-            fixed4 #(.COL_WIDTH(11)) fixed4(
+        for (i=0; i<2; i=i+1) begin: 4bit
+            fixed4 #(.COL_WIDTH(COL_WIDTH)) fixed4(
                 .clk(clk),
                 .in(in[3:0]+in[7:4]),
                 .weight(weight[(i*4)+3:i*4]),
@@ -49,7 +50,8 @@ module fusion_unit #(parameter COL_WIDTH=11) (
                 .s_weight(s_weight),
                 .psum_fwd(sum4[(COL_WIDTH*(i+1)*2)-1:COL_WIDTH*i*2])
             );
-    end 
+        end    
+    endgenerate 
 
     always@(posedge clk) begin
         if (in_width == 4'b1000) begin
