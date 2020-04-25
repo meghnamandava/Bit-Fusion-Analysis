@@ -328,7 +328,7 @@ module fusion_unit_testbench();
                 if (psum_fwd[12:0] != a[12:0]) $display("Multiplicands: %d, %d, Correct: %b, Output: %b", i, j, a, psum_fwd);
             end
         end
-
+        
         
         in_width = 2;
         weight_width = 2;
