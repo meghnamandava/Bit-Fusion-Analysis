@@ -44,7 +44,7 @@ module fusion_unit_testbench();
         #20
         @ (posedge clk);
 
-        psum_in = 52'b0;
+        psum_in = 44'b0;
         in_width = 1;
         weight_width = 1;
         s_weight = 0;
@@ -97,7 +97,7 @@ module fusion_unit_testbench();
             end
         end 
 
-        in_width = 2;
+        /*in_width = 2;
         weight_width = 4;
         s_weight = 0;
         s_in = 0;
@@ -366,7 +366,7 @@ module fusion_unit_testbench();
         if (psum_fwd[25:13] != 154) $display("Correct: 154, Output: %d", psum_fwd[25:13]);
         if (psum_fwd[38:26] != 308) $display("Correct: 308, Output: %d", psum_fwd[38:26]);
         if (psum_fwd[51:39] != 462) $display("Correct: 462, Output: %d", psum_fwd[51:39]);
-        
+        */
 
         $finish();
         //$vcdplusoff;

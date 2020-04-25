@@ -1,5 +1,4 @@
 module fixed8 #(parameter COL_WIDTH=11) (
-    input clk,
     input [7:0] in,
     input [7:0] weight,
     input [(COL_WIDTH*4)-1:0] psum_in,
@@ -8,7 +7,7 @@ module fixed8 #(parameter COL_WIDTH=11) (
     output reg [(COL_WIDTH*4)-1:0] psum_fwd
     );
 
-    always @(posedge clk) begin
+    always @(*) begin
         if (s_in == 1'b1 && s_weight == 1'b1) begin
             psum_fwd <= ($signed(in) * $signed(weight)) + psum_in;
         end else if (s_in == 1'b1 && s_weight == 1'b0) begin

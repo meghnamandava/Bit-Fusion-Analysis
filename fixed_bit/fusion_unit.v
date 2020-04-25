@@ -14,7 +14,6 @@ module fusion_unit #(parameter COL_WIDTH=11) (
     wire [(COL_WIDTH*4)-1:0] sum8, sum4, sum2;
     
     fixed8 #(.COL_WIDTH(11)) fixed8(
-        .clk(clk),
         .in(in),
         .weight(weight),
         .psum_in(psum_in),
@@ -26,9 +25,8 @@ module fusion_unit #(parameter COL_WIDTH=11) (
     genvar i;
 
     generate 
-        for (i=0; i<4; i=i+1) begin: 2bit
+        for (i=0; i<4; i=i+1) begin: bit2
             fixed2 #(.COL_WIDTH(COL_WIDTH)) fixed2(
-                .clk(clk),
                 .in(in[1:0]+in[3:2]+in[5:4]+in[7:6]),
                 .weight(weight[(i*2)+1:i*2]),
                 .psum_in(psum_in[(COL_WIDTH*(i+1))-1:COL_WIDTH*i]),
@@ -40,9 +38,8 @@ module fusion_unit #(parameter COL_WIDTH=11) (
     endgenerate     
 
     generate 
-        for (i=0; i<2; i=i+1) begin: 4bit
+        for (i=0; i<2; i=i+1) begin: bit4
             fixed4 #(.COL_WIDTH(COL_WIDTH)) fixed4(
-                .clk(clk),
                 .in(in[3:0]+in[7:4]),
                 .weight(weight[(i*4)+3:i*4]),
                 .psum_in(psum_in[(COL_WIDTH*(i+1)*2)-1:COL_WIDTH*i*2]),
