@@ -1,4 +1,4 @@
-module bitfusion_top #(parameter COL_WIDTH=11) (
+module bitfusion_top #(parameter COL_WIDTH=9) (
     input clk,
     input [7:0] in,
     input [31:0] weight,
