@@ -3,8 +3,8 @@ ABS_TOP                 := $(subst /cygdrive/c/,C:/, $(shell pwd))
 VIVADO                  ?= vivado
 VIVADO_OPTS             ?= -nolog -nojournal -mode batch
 FPGA_PART               ?= xc7z020clg400-3
-RTL                     += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/fixed_bit -type f -name "*.v"))
-CONSTRAINTS             += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/fixed_bit -type f -name "*.xdc"))
+RTL                     += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/src -type f -name "*.v"))
+CONSTRAINTS             += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/src -type f -name "*.xdc"))
 TOP                     ?= z1top
 VCS                     := vcs -full64
 VCS_OPTS                := -notice -PP -line +lint=all,noVCDE +v2k -timescale=1ns/10ps -debug

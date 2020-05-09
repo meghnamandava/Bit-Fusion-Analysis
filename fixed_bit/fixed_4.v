@@ -1,6 +1,6 @@
 module fixed4 #(parameter COL_WIDTH=11) (
     input [7:0] in,
-    input [3:0] weight,
+    input [7:0] weight,
     input [(COL_WIDTH*2)-1:0] psum_in,
     input s_in,
     input s_weight,

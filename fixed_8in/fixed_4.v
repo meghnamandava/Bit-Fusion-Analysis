@@ -1,10 +1,10 @@
-module fixed2 #(parameter COL_WIDTH=11) (
+module fixed4 #(parameter COL_WIDTH=11) (
     input [7:0] in,
-    input [7:0] weight,
-    input [COL_WIDTH-1:0] psum_in,
+    input [3:0] weight,
+    input [(COL_WIDTH*2)-1:0] psum_in,
     input s_in,
     input s_weight,
-    output reg [COL_WIDTH-1:0] psum_fwd
+    output reg [(COL_WIDTH*2)-1:0] psum_fwd
     );
 
     always @(*) begin
@@ -19,7 +19,7 @@ module fixed2 #(parameter COL_WIDTH=11) (
         end
     end    
 
-
+ 
 endmodule
 
     
