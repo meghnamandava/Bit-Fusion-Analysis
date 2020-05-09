@@ -1,4 +1,4 @@
-module fusion_unit_wrong #(parameter COL_WIDTH=13) (
+module fusion_unit #(parameter COL_WIDTH=13) (
 
     input clk,
     input [7:0] in,
