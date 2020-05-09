@@ -22,7 +22,7 @@ module fusion_unit_testbench();
     integer j;
     integer a;
 
-    fusion_unit_wrong fu0(
+    fusion_unit fu0(
         .clk(clk),
         .in(in),
         .weight(weight),

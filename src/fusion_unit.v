@@ -1,8 +1,8 @@
-module fusion_unit #(parameter COL_WIDTH=13) (
+module fusion_unit_wrong #(parameter COL_WIDTH=13) (
 
     input clk,
     input [7:0] in,
-    input [7:0] weight,
+    input [31:0] weight,
     input [(COL_WIDTH*4)-1:0] psum_in,
     input [3:0] in_width,
     input [3:0] weight_width,
@@ -49,7 +49,10 @@ module fusion_unit #(parameter COL_WIDTH=13) (
 
     wire [(COL_WIDTH*2)-1:0] sum0, sum1, sum2, sum3;
     wire [3:0] weight_signed, in_signed;
-    
+    wire [31:0] weight_bb = (in_width[3:2] == 2'b00) ? weight : (in_width[3] == 1'b1) ? 
+                            {weight[7:0], weight[7:0], weight[7:0], weight[7:0]} : 
+                            {weight[15:8], weight[15:8], weight[7:0], weight[7:0]};
+
 
     shift_lookup sl(
         .in_width(in_width),
@@ -71,7 +74,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb0(
         .x(in[1:0]),
         .s_x(s_in & in_signed[0]),
-        .y(weight[1:0]),
+        .y(weight_bb[1:0]),
         .s_y(s_weight & weight_signed[0]),
         .shift(shift0),
         .prod(prod0)
@@ -80,7 +83,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb1(
         .x(in[1:0]),
         .s_x(s_in & in_signed[0]),
-        .y(weight[3:2]),
+        .y(weight_bb[3:2]),
         .s_y(s_weight & weight_signed[1]),
         .shift(shift1),
         .prod(prod1)
@@ -89,7 +92,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb2(
         .x(in[1:0]),
         .s_x(s_in & in_signed[0]),
-        .y(weight[5:4]),
+        .y(weight_bb[5:4]),
         .s_y(s_weight & weight_signed[2]),
         .shift(shift2),
         .prod(prod2)
@@ -98,7 +101,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb3(
         .x(in[1:0]),
         .s_x(s_in & in_signed[0]),
-        .y(weight[7:6]),
+        .y(weight_bb[7:6]),
         .s_y(s_weight & weight_signed[3]),
         .shift(shift3),
         .prod(prod3)
@@ -107,7 +110,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb4(
         .x(in[3:2]),
         .s_x(s_in & in_signed[1]),
-        .y(weight[1:0]),
+        .y(weight_bb[9:8]),
         .s_y(s_weight & weight_signed[0]),
         .shift(shift4),
         .prod(prod4)
@@ -116,7 +119,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb5(
         .x(in[3:2]),
         .s_x(s_in & in_signed[1]),
-        .y(weight[3:2]),
+        .y(weight_bb[11:10]),
         .s_y(s_weight & weight_signed[1]),
         .shift(shift5),
         .prod(prod5)
@@ -125,7 +128,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb6(
         .x(in[3:2]),
         .s_x(s_in & in_signed[1]),
-        .y(weight[5:4]),
+        .y(weight_bb[13:12]),
         .s_y(s_weight & weight_signed[2]),
         .shift(shift6),
         .prod(prod6)
@@ -134,7 +137,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb7(
         .x(in[3:2]),
         .s_x(s_in & in_signed[1]),
-        .y(weight[7:6]),
+        .y(weight_bb[15:14]),
         .s_y(s_weight & weight_signed[3]),
         .shift(shift7),
         .prod(prod7)
@@ -143,7 +146,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb8(
         .x(in[5:4]),
         .s_x(s_in & in_signed[2]),
-        .y(weight[1:0]),
+        .y(weight_bb[17:16]),
         .s_y(s_weight & weight_signed[0]),
         .shift(shift8),
         .prod(prod8)
@@ -152,7 +155,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb9(
         .x(in[5:4]),
         .s_x(s_in & in_signed[2]),
-        .y(weight[3:2]),
+        .y(weight_bb[19:18]),
         .s_y(s_weight & weight_signed[1]),
         .shift(shift9),
         .prod(prod9)
@@ -161,7 +164,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb10(
         .x(in[5:4]),
         .s_x(s_in & in_signed[2]),
-        .y(weight[5:4]),
+        .y(weight_bb[21:20]),
         .s_y(s_weight & weight_signed[2]),
         .shift(shift10),
         .prod(prod10)
@@ -170,7 +173,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb11(
         .x(in[5:4]),
         .s_x(s_in & in_signed[2]),
-        .y(weight[7:6]),
+        .y(weight_bb[23:22]),
         .s_y(s_weight & weight_signed[3]),
         .shift(shift11),
         .prod(prod11)
@@ -179,7 +182,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb12(
         .x(in[7:6]),
         .s_x(s_in & in_signed[3]),
-        .y(weight[1:0]),
+        .y(weight_bb[25:24]),
         .s_y(s_weight & weight_signed[0]),
         .shift(shift12),
         .prod(prod12)
@@ -188,7 +191,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb13(
         .x(in[7:6]),
         .s_x(s_in & in_signed[3]),
-        .y(weight[3:2]),
+        .y(weight_bb[27:26]),
         .s_y(s_weight & weight_signed[1]),
         .shift(shift13),
         .prod(prod13)
@@ -197,7 +200,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb14(
         .x(in[7:6]),
         .s_x(s_in & in_signed[3]),
-        .y(weight[5:4]),
+        .y(weight_bb[29:28]),
         .s_y(s_weight & weight_signed[2]),
         .shift(shift14),
         .prod(prod14)
@@ -206,13 +209,13 @@ module fusion_unit #(parameter COL_WIDTH=13) (
     bitbrick bb15(
         .x(in[7:6]),
         .s_x(s_in & in_signed[3]),
-        .y(weight[7:6]),
+        .y(weight_bb[31:30]),
         .s_y(s_weight & weight_signed[3]),
         .shift(shift15),
         .prod(prod15)
     ); 
 
-    fusion_subunit #(.COL_WIDTH(13)) fs0 (
+    fusion_subunit #(.COL_WIDTH(COL_WIDTH)) fs0 (
         .p0(prod0),
         .p1(prod1),
         .p2(prod4),
@@ -223,7 +226,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
         .sum(sum0)
     );
 
-    fusion_subunit #(.COL_WIDTH(13))  fs1 (
+    fusion_subunit #(.COL_WIDTH(COL_WIDTH))  fs1 (
         .p0(prod2),
         .p1(prod3),
         .p2(prod6),
@@ -234,7 +237,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
         .sum(sum1)
     );
 
-    fusion_subunit #(.COL_WIDTH(13))  fs2 (
+    fusion_subunit #(.COL_WIDTH(COL_WIDTH))  fs2 (
         .p0(prod8),
         .p1(prod9),
         .p2(prod12),
@@ -245,7 +248,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
         .sum(sum2)
     );
 
-    fusion_subunit #(.COL_WIDTH(13))  fs3 (
+    fusion_subunit #(.COL_WIDTH(COL_WIDTH))  fs3 (
         .p0(prod10),
         .p1(prod11),
         .p2(prod14),
