@@ -1,7 +1,7 @@
 module bitfusion_top #(parameter COL_WIDTH=13) (
     input clk,
     input [7:0] in,
-    input [7:0] weight,
+    input [31:0] weight,
     input [(COL_WIDTH*4)-1:0] psum_in,
     input [3:0] in_width,
     input [3:0] weight_width,
@@ -13,7 +13,7 @@ module bitfusion_top #(parameter COL_WIDTH=13) (
     //need to mux inputs??
 
     reg [7:0] in_reg;
-    reg [7:0] weight_reg;
+    reg [31:0] weight_reg;
     reg [(COL_WIDTH*4)-1:0] psum_in_reg;
     reg [3:0] in_width_reg;
     reg [3:0] weight_width_reg;
