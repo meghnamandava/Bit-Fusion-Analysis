@@ -8,7 +8,7 @@ module accelerator #(parameter ARRAY_SIZE=8, parameter LOG_ARRAY_SIZE=3)
     input [3:0] weight_width,
     input s_in,
     input s_weight,
-    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] wbuf_in,
+    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [31:0] wbuf_in,
     input write_w,
     input [ARRAY_SIZE-1:0] [7:0] ibuf_in,
     input write_in,
@@ -36,7 +36,7 @@ module accelerator #(parameter ARRAY_SIZE=8, parameter LOG_ARRAY_SIZE=3)
     wire [LOG_DEPTH-1:0] in_addr, w_addr, o_addr;
 
     wire [ARRAY_SIZE-1:0] [7:0] ibuf_out;
-    wire [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] wbuf_out;
+    wire [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [31:0] wbuf_out;
     wire [ARRAY_SIZE-1:0] [(COL_WIDTH*4)-1:0] obuf_in; 
 
     //cycle counter
@@ -106,7 +106,7 @@ module accelerator #(parameter ARRAY_SIZE=8, parameter LOG_ARRAY_SIZE=3)
         .dout(ibuf_out)
     );
 
-    mem #(.WIDTH(8*ARRAY_SIZE*ARRAY_SIZE)) wbuf (
+    mem #(.WIDTH(32*ARRAY_SIZE*ARRAY_SIZE)) wbuf (
         .clk(clk),
         .en(read_w),
         .we(write_w),

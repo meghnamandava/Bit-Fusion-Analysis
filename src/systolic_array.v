@@ -29,7 +29,7 @@ module systolic_array #(parameter ARRAY_SIZE=8, parameter LOG_ARRAY_SIZE=3)
 
     /* Inputs */ 
 
-    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [7:0] weights;
+    input [(ARRAY_SIZE*ARRAY_SIZE)-1:0] [31:0] weights;
     input [ARRAY_SIZE-1:0] [7:0] inputs;
 
     /* Outputs */

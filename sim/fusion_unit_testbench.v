@@ -5,13 +5,13 @@
 `define CLOCKS_PER_SAMPLE 2500
 
 module fusion_unit_testbench();
-
+ 
     reg clk;
     initial clk = 0;
     always #(5) clk <= ~clk;
 
     reg [7:0] in;
-    reg [7:0] weight;
+    reg [31:0] weight;
     wire [51:0] psum_fwd;
     reg [51:0] psum_in;
     reg [3:0] in_width;
@@ -22,7 +22,7 @@ module fusion_unit_testbench();
     integer j;
     integer a;
 
-    fusion_unit fu0(
+    fusion_unit_wrong fu0(
         .clk(clk),
         .in(in),
         .weight(weight),
@@ -52,7 +52,7 @@ module fusion_unit_testbench();
         for (i = 8'b0; i <= 8'b00000001; i = i + 1'b1) begin
             for (j = 8'b0; j <= 8'b00000001; j = j + 1'b1) begin
                 in = i;
-                weight = j;
+                weight = {j, j, j, j};
                 #10;
                 if (psum_fwd != (i*j)) $display("Multiplicands: %d, %d, Correct: %d, Output: %d", i, j, (i*j), psum_fwd);
             end
@@ -65,7 +65,7 @@ module fusion_unit_testbench();
         for (i = 8'b0; i <= 8'b00000011; i = i + 1'b1) begin
             for (j = 8'b0; j <= 8'b00000011; j = j + 1'b1) begin
                 in = i;
-                weight = j;
+                weight = {j, j, j, j};
                 #10;
                 if (psum_fwd != (i*j)) $display("Multiplicands: %d, %d, Correct: %d, Output: %d", i, j, (i*j), psum_fwd);
             end
@@ -97,7 +97,7 @@ module fusion_unit_testbench();
             end
         end 
 
-        /*in_width = 2;
+        in_width = 2;
         weight_width = 4;
         s_weight = 0;
         s_in = 0;
@@ -334,13 +334,13 @@ module fusion_unit_testbench();
         weight_width = 2;
         s_weight = 0;
         s_in = 0;
-        in = 8'b11100100;
+        in = 8'b00011011;
         weight = 8'b11100100;
         #10
         if (psum_fwd[12:0] != 0) $display("Correct: 0, Output: %d", psum_fwd[12:0]);
-        if (psum_fwd[25:13] != 6) $display("Correct: 6, Output: %d", psum_fwd[25:13]);
-        if (psum_fwd[38:26] != 12) $display("Correct: 12, Output: %d", psum_fwd[38:26]);
-        if (psum_fwd[51:39] != 18) $display("Correct: 18, Output: %d", psum_fwd[51:39]);
+        if (psum_fwd[25:13] != 3) $display("Correct: 3, Output: %d", psum_fwd[25:13]);
+        if (psum_fwd[38:26] != 6) $display("Correct: 6, Output: %d", psum_fwd[38:26]);
+        if (psum_fwd[51:39] != 9) $display("Correct: 9, Output: %d", psum_fwd[51:39]);
 
         in_width = 4;
         weight_width = 2;
@@ -350,9 +350,9 @@ module fusion_unit_testbench();
         weight = 8'b11100100;
         #10
         if (psum_fwd[12:0] != 0) $display("Correct: 0, Output: %d", psum_fwd[12:0]);
-        if (psum_fwd[25:13] != 17) $display("Correct: 17, Output: %d", psum_fwd[25:13]);
-        if (psum_fwd[38:26] != 34) $display("Correct: 34, Output: %d", psum_fwd[38:26]);
-        if (psum_fwd[51:39] != 51) $display("Correct: 51, Output: %d", psum_fwd[51:39]);
+        if (psum_fwd[25:13] != 4) $display("Correct: 4, Output: %d", psum_fwd[25:13]);
+        if (psum_fwd[38:26] != 8) $display("Correct: 8, Output: %d", psum_fwd[38:26]);
+        if (psum_fwd[51:39] != 12) $display("Correct: 12, Output: %d", psum_fwd[51:39]);
         
         psum_in = psum_fwd;//{13'b110011, 13'b100010, 13'b10001, 13'b0};
         in_width = 8;
@@ -363,10 +363,30 @@ module fusion_unit_testbench();
         weight = 8'b11100100;
         #10
         if (psum_fwd[12:0] != 0) $display("Correct: 0, Output: %d", psum_fwd[12:0]);
-        if (psum_fwd[25:13] != 154) $display("Correct: 154, Output: %d", psum_fwd[25:13]);
-        if (psum_fwd[38:26] != 308) $display("Correct: 308, Output: %d", psum_fwd[38:26]);
-        if (psum_fwd[51:39] != 462) $display("Correct: 462, Output: %d", psum_fwd[51:39]);
-        */
+        if (psum_fwd[25:13] != 141) $display("Correct: 141, Output: %d", psum_fwd[25:13]);
+        if (psum_fwd[38:26] != 282) $display("Correct: 282, Output: %d", psum_fwd[38:26]);
+        if (psum_fwd[51:39] != 423) $display("Correct: 423, Output: %d", psum_fwd[51:39]);
+
+        psum_in = 0;
+        in_width = 2;
+        weight_width = 4;
+        s_weight = 0;
+        s_in = 0;
+        in = 8'b00011011;
+        weight = 32'b01001101010011010100110101001101;
+        #10
+        if (psum_fwd[25:0] != 78) $display("Correct: 78, Output: %d", psum_fwd[12:0]);
+        if (psum_fwd[51:26] != 24) $display("Correct: 24, Output: %d", psum_fwd[25:13]);
+
+        in_width = 4;
+        weight_width = 4;
+        s_weight = 0;
+        s_in = 0;
+        in = 8'b11110011;
+        weight = 16'b1101010001001101;
+        #10
+        if (psum_fwd[25:0] != 99) $display("Correct: 99, Output: %d", psum_fwd[12:0]);
+        if (psum_fwd[51:26] != 207) $display("Correct: 207, Output: %d", psum_fwd[25:13]);
 
         $finish();
         //$vcdplusoff;

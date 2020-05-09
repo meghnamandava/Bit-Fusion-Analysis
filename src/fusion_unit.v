@@ -49,6 +49,7 @@ module fusion_unit #(parameter COL_WIDTH=13) (
 
     wire [(COL_WIDTH*2)-1:0] sum0, sum1, sum2, sum3;
     wire [3:0] weight_signed, in_signed;
+    
 
     shift_lookup sl(
         .in_width(in_width),
